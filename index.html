@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VEXORIX — Game Portal</title>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap');
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<style>
 *{
     margin:0;
     padding:0;
@@ -19,14 +21,14 @@ html{
 }
 
 body{
-    background:#05050a;
+    background:#050609;
     color:#fff;
     font-family:'Rajdhani',sans-serif;
     overflow-x:hidden;
 }
 
 /* =========================
-   CRT EFFECT
+   BACKGROUND
 ========================= */
 
 body::before{
@@ -34,14 +36,15 @@ body::before{
     position:fixed;
     inset:0;
     pointer-events:none;
-    z-index:9999;
-    background:repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,.025) 0px,
-        rgba(255,255,255,.025) 1px,
-        transparent 2px,
-        transparent 4px
-    );
+    z-index:999;
+    opacity:.08;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 2px,
+            #fff 3px
+        );
 }
 
 body::after{
@@ -49,8 +52,50 @@ body::after{
     position:fixed;
     inset:0;
     pointer-events:none;
-    z-index:9998;
-    box-shadow:inset 0 0 120px rgba(0,0,0,.9);
+    z-index:-2;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(0,229,255,.12),transparent 25%),
+        radial-gradient(circle at 80% 40%,rgba(255,0,110,.10),transparent 25%),
+        radial-gradient(circle at 50% 90%,rgba(120,0,255,.10),transparent 30%),
+        #050609;
+}
+
+.grid-bg{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    opacity:.13;
+    background-image:
+        linear-gradient(rgba(0,229,255,.15) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,229,255,.15) 1px,transparent 1px);
+    background-size:50px 50px;
+    mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+
+.particle{
+    position:fixed;
+    width:3px;
+    height:3px;
+    background:#00e5ff;
+    border-radius:50%;
+    opacity:.5;
+    pointer-events:none;
+    z-index:-1;
+    animation:float 8s linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+    20%{opacity:.6}
+    80%{opacity:.4}
+    to{
+        transform:translateY(-10vh);
+        opacity:0;
+    }
 }
 
 /* =========================
@@ -60,31 +105,29 @@ body::after{
 header{
     position:sticky;
     top:0;
-    z-index:1000;
-    height:75px;
+    z-index:100;
+    height:76px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 5%;
-    background:rgba(5,5,10,.92);
-    border-bottom:2px solid #00eaff;
-    box-shadow:0 0 20px rgba(0,234,255,.25);
-    backdrop-filter:blur(12px);
+    padding:0 6%;
+    background:rgba(5,6,9,.88);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(0,229,255,.25);
 }
 
 .logo{
-    font-family:'Press Start 2P';
+    font-family:'Press Start 2P',monospace;
     font-size:20px;
-    color:#00eaff;
+    letter-spacing:2px;
+    color:#fff;
     text-shadow:
-        3px 3px 0 #7b00ff,
-        0 0 15px #00eaff;
-    animation:logoPulse 2s infinite alternate;
+        0 0 8px #00e5ff,
+        0 0 22px rgba(0,229,255,.7);
 }
 
-@keyframes logoPulse{
-    from{filter:brightness(.9);}
-    to{filter:brightness(1.4);}
+.logo span{
+    color:#00e5ff;
 }
 
 nav{
@@ -92,18 +135,21 @@ nav{
     gap:28px;
 }
 
-nav a{
+nav button{
+    border:0;
+    background:none;
     color:#aaa;
-    text-decoration:none;
+    font-family:'Rajdhani',sans-serif;
     font-weight:700;
-    letter-spacing:2px;
+    font-size:15px;
+    letter-spacing:1.5px;
     cursor:pointer;
     transition:.25s;
 }
 
-nav a:hover{
-    color:#00eaff;
-    text-shadow:0 0 10px #00eaff;
+nav button:hover{
+    color:#00e5ff;
+    text-shadow:0 0 12px #00e5ff;
 }
 
 /* =========================
@@ -111,157 +157,286 @@ nav a:hover{
 ========================= */
 
 .hero{
-    min-height:570px;
-    padding:90px 6%;
+    min-height:650px;
     display:flex;
     align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:100px 20px 80px;
     position:relative;
     overflow:hidden;
-    background:
-        radial-gradient(circle at 75% 45%,rgba(123,0,255,.25),transparent 30%),
-        radial-gradient(circle at 20% 70%,rgba(0,234,255,.12),transparent 30%);
 }
 
-.hero-grid{
+.hero::before{
+    content:"";
     position:absolute;
-    inset:auto 0 0;
-    height:220px;
-    background:
-        linear-gradient(rgba(0,234,255,.15) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,234,255,.15) 1px,transparent 1px);
-    background-size:50px 50px;
-    transform:perspective(300px) rotateX(55deg);
-    transform-origin:bottom;
-    opacity:.35;
+    width:650px;
+    height:650px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(0,229,255,.14),transparent 65%);
+    animation:pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(.9);opacity:.6}
+    50%{transform:scale(1.1);opacity:1}
 }
 
 .hero-content{
-    max-width:850px;
     position:relative;
     z-index:2;
+    max-width:1000px;
 }
 
-.small-title{
-    font-family:'Press Start 2P';
-    color:#ff006e;
-    font-size:12px;
-    margin-bottom:25px;
-    letter-spacing:2px;
-    animation:blink 1.5s infinite;
+.hero-mini{
+    font-family:'Press Start 2P',monospace;
+    font-size:11px;
+    color:#00e5ff;
+    letter-spacing:3px;
+    margin-bottom:30px;
+    animation:flicker 3s infinite;
 }
 
-@keyframes blink{
-    50%{opacity:.45;}
+@keyframes flicker{
+    0%,18%,20%,22%,100%{opacity:1}
+    19%,21%{opacity:.35}
 }
 
 .hero h1{
-    font-family:'Press Start 2P';
-    font-size:clamp(35px,7vw,85px);
-    line-height:1.15;
+    font-family:'Press Start 2P',monospace;
+    font-size:clamp(38px,8vw,90px);
+    letter-spacing:6px;
+    line-height:1.1;
     color:#fff;
     text-shadow:
-        5px 5px 0 #7b00ff,
-        0 0 30px rgba(0,234,255,.5);
-    animation:heroGlitch 4s infinite;
+        4px 4px 0 #111,
+        0 0 10px #00e5ff,
+        0 0 35px #00e5ff;
 }
 
-@keyframes heroGlitch{
-    0%,92%,100%{transform:translate(0);}
-    93%{transform:translate(-3px,2px);}
-    94%{transform:translate(3px,-2px);}
+.hero h1 span{
+    color:#00e5ff;
+}
+
+.hero h2{
+    margin-top:28px;
+    font-family:'Press Start 2P',monospace;
+    font-size:clamp(12px,2vw,20px);
+    letter-spacing:2px;
+    color:#ff2d7a;
+    text-shadow:0 0 15px rgba(255,45,122,.7);
 }
 
 .hero p{
-    max-width:650px;
-    color:#aaa;
-    font-size:21px;
-    margin:30px 0;
-    line-height:1.5;
+    max-width:680px;
+    margin:30px auto;
+    color:#a9adb5;
+    font-size:19px;
+    line-height:1.6;
 }
 
 .hero-buttons{
     display:flex;
+    justify-content:center;
     gap:15px;
     flex-wrap:wrap;
 }
 
 .btn{
-    border:2px solid #00eaff;
-    padding:14px 22px;
-    color:#00eaff;
-    background:#071015;
-    font-family:'Press Start 2P';
+    padding:16px 25px;
+    border:1px solid #00e5ff;
+    background:rgba(0,229,255,.08);
+    color:#fff;
+    font-family:'Press Start 2P',monospace;
     font-size:10px;
     cursor:pointer;
     transition:.25s;
-    box-shadow:4px 4px 0 #7b00ff;
+    box-shadow:0 0 18px rgba(0,229,255,.12);
 }
 
 .btn:hover{
-    background:#00eaff;
-    color:#000;
-    transform:translate(-3px,-3px);
-    box-shadow:7px 7px 0 #7b00ff;
+    transform:translateY(-4px);
+    background:#00e5ff;
+    color:#050609;
+    box-shadow:0 0 30px rgba(0,229,255,.65);
+}
+
+.btn.pink{
+    border-color:#ff2d7a;
+    background:rgba(255,45,122,.08);
+}
+
+.btn.pink:hover{
+    background:#ff2d7a;
+    box-shadow:0 0 30px rgba(255,45,122,.6);
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    max-width:900px;
+    margin:-30px auto 100px;
+    padding:0 20px;
+    gap:15px;
+}
+
+.stat{
+    border:1px solid rgba(0,229,255,.2);
+    background:rgba(10,12,18,.8);
+    padding:28px 15px;
+    text-align:center;
+    transition:.3s;
+}
+
+.stat:hover{
+    border-color:#00e5ff;
+    transform:translateY(-5px);
+    box-shadow:0 0 25px rgba(0,229,255,.12);
+}
+
+.stat strong{
+    display:block;
+    color:#00e5ff;
+    font-family:'Press Start 2P',monospace;
+    font-size:20px;
+    margin-bottom:10px;
+}
+
+.stat span{
+    color:#777;
+    letter-spacing:2px;
+    font-weight:700;
 }
 
 /* =========================
    SECTIONS
 ========================= */
 
-.section{
-    padding:60px 5%;
+section{
+    max-width:1250px;
+    margin:0 auto;
+    padding:80px 25px;
 }
 
 .section-title{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    margin-bottom:30px;
+    align-items:end;
+    margin-bottom:35px;
+    border-left:4px solid #00e5ff;
+    padding-left:18px;
 }
 
 .section-title h2{
-    font-family:'Press Start 2P';
-    font-size:18px;
-    color:#fff;
-    text-shadow:3px 3px 0 #7b00ff;
+    font-family:'Press Start 2P',monospace;
+    font-size:20px;
+    line-height:1.6;
 }
 
-.section-title span{
-    color:#00eaff;
-    font-size:14px;
-    letter-spacing:2px;
+.section-title p{
+    color:#666;
+    font-size:15px;
 }
 
 /* =========================
-   GAME CARDS
+   FEATURED
+========================= */
+
+.featured{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    min-height:390px;
+    overflow:hidden;
+    border:1px solid rgba(0,229,255,.25);
+    background:#090b10;
+    box-shadow:0 0 40px rgba(0,0,0,.4);
+}
+
+.featured-image{
+    position:relative;
+    min-height:390px;
+    overflow:hidden;
+}
+
+.featured-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.7s;
+}
+
+.featured:hover .featured-image img{
+    transform:scale(1.07);
+}
+
+.featured-image::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg,transparent 50%,#090b10);
+}
+
+.featured-info{
+    padding:50px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+}
+
+.rank{
+    font-family:'Press Start 2P',monospace;
+    color:#ffcc00;
+    font-size:12px;
+    margin-bottom:18px;
+}
+
+.featured-info h3{
+    font-family:'Press Start 2P',monospace;
+    font-size:28px;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.featured-info p{
+    color:#8f949d;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+/* =========================
+   GAME GRID
 ========================= */
 
 .game-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:22px;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
 }
 
 .game-card{
-    background:#0d0d16;
-    border:1px solid #242438;
+    background:#090b10;
+    border:1px solid rgba(255,255,255,.07);
     overflow:hidden;
-    position:relative;
     cursor:pointer;
+    position:relative;
     transition:.3s;
-    animation:cardIn .5s ease both;
 }
 
 .game-card:hover{
-    transform:translateY(-9px) scale(1.02);
-    border-color:#00eaff;
+    transform:translateY(-8px);
+    border-color:#00e5ff;
     box-shadow:
-        0 0 20px rgba(0,234,255,.18),
-        8px 8px 0 rgba(123,0,255,.5);
+        0 15px 35px rgba(0,0,0,.5),
+        0 0 25px rgba(0,229,255,.13);
 }
 
 .game-cover{
-    height:280px;
+    height:230px;
     position:relative;
     overflow:hidden;
     background:#111;
@@ -278,204 +453,226 @@ nav a:hover{
     transform:scale(1.08);
 }
 
-.game-cover::after{
-    content:"VIEW GAME";
+.game-overlay{
     position:absolute;
     inset:0;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:rgba(0,0,0,.65);
-    color:#00eaff;
-    font-family:'Press Start 2P';
-    font-size:10px;
+    background:rgba(0,229,255,.12);
     opacity:0;
     transition:.3s;
 }
 
-.game-card:hover .game-cover::after{
+.game-card:hover .game-overlay{
     opacity:1;
 }
 
+.view-game{
+    font-family:'Press Start 2P',monospace;
+    font-size:8px;
+    padding:12px;
+    background:#00e5ff;
+    color:#050609;
+}
+
+.game-badge{
+    position:absolute;
+    top:10px;
+    left:10px;
+    padding:6px 8px;
+    font-family:'Press Start 2P',monospace;
+    font-size:7px;
+    background:#ff2d7a;
+    color:#fff;
+    z-index:2;
+}
+
+.game-badge.new{
+    background:#00e5ff;
+    color:#050609;
+}
+
+.game-rating{
+    position:absolute;
+    right:10px;
+    top:10px;
+    padding:6px 8px;
+    background:rgba(0,0,0,.8);
+    color:#ffcc00;
+    font-weight:700;
+    z-index:2;
+}
+
 .game-info{
-    padding:15px;
+    padding:17px;
 }
 
 .game-info h3{
-    font-size:20px;
+    font-size:18px;
     margin-bottom:7px;
+}
+
+.game-info p{
+    color:#666;
+    font-size:14px;
 }
 
 .game-meta{
     display:flex;
     justify-content:space-between;
-    color:#888;
-    font-size:14px;
-}
-
-.rating{
-    color:#ffd500;
-}
-
-/* =========================
-   TRENDING HORIZONTAL
-========================= */
-
-.trending-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-}
-
-.trending-card{
-    height:300px;
-    position:relative;
-    overflow:hidden;
-    cursor:pointer;
-    border:1px solid #272738;
-    transition:.3s;
-}
-
-.trending-card:hover{
-    transform:translateY(-8px);
-    border-color:#ff006e;
-    box-shadow:0 0 25px rgba(255,0,110,.25);
-}
-
-.trending-card img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:.5s;
-}
-
-.trending-card:hover img{
-    transform:scale(1.1);
-}
-
-.trending-overlay{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    padding:20px;
-    background:linear-gradient(transparent 30%,rgba(0,0,0,.95));
-}
-
-.trending-number{
-    font-family:'Press Start 2P';
-    color:#ff006e;
-    font-size:11px;
-}
-
-.trending-overlay h3{
-    font-size:25px;
+    margin-top:12px;
+    color:#00e5ff;
+    font-size:13px;
+    font-weight:700;
 }
 
 /* =========================
-   CATEGORY
+   CATEGORIES
 ========================= */
 
 .category-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:20px;
+    gap:15px;
 }
 
 .category{
-    min-height:150px;
-    border:2px solid #252535;
-    background:linear-gradient(145deg,#11111c,#08080e);
-    padding:25px;
-    cursor:pointer;
     position:relative;
+    min-height:150px;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    justify-content:end;
     overflow:hidden;
-    transition:.3s;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.08);
+    background:
+        linear-gradient(145deg,#10131b,#07080b);
+    transition:.35s;
 }
 
 .category::before{
     content:"";
     position:absolute;
-    width:100px;
-    height:100px;
-    right:-40px;
-    bottom:-40px;
+    width:120px;
+    height:120px;
     border-radius:50%;
-    background:#7b00ff;
-    filter:blur(30px);
-    opacity:.3;
+    background:rgba(0,229,255,.08);
+    top:-40px;
+    right:-30px;
+    transition:.4s;
 }
 
 .category:hover{
-    transform:translateY(-6px);
-    border-color:#00eaff;
-    box-shadow:0 0 25px rgba(0,234,255,.2);
+    transform:translateY(-7px);
+    border-color:#00e5ff;
+    box-shadow:0 0 25px rgba(0,229,255,.12);
+}
+
+.category:hover::before{
+    transform:scale(2);
 }
 
 .category-icon{
-    font-size:40px;
-    margin-bottom:15px;
+    position:absolute;
+    top:22px;
+    right:25px;
+    font-size:34px;
+    filter:drop-shadow(0 0 10px rgba(0,229,255,.5));
 }
 
 .category h3{
-    font-size:23px;
+    font-family:'Press Start 2P',monospace;
+    font-size:12px;
+    margin-bottom:10px;
 }
 
-.category p{
+.category span{
     color:#777;
+    font-size:14px;
 }
 
 /* =========================
-   SEARCH
-========================= */
-
-.search-box{
-    width:100%;
-    max-width:700px;
-    margin:0 auto 40px;
-}
-
-.search-box input{
-    width:100%;
-    padding:18px 22px;
-    background:#0d0d16;
-    border:2px solid #29293b;
-    outline:none;
-    color:#fff;
-    font-size:18px;
-    font-family:'Rajdhani';
-}
-
-.search-box input:focus{
-    border-color:#00eaff;
-    box-shadow:0 0 20px rgba(0,234,255,.15);
-}
-
-/* =========================
-   PAGE SWITCHING
+   GAMES PAGE
 ========================= */
 
 .page{
     display:none;
+    min-height:80vh;
 }
 
 .page.active{
     display:block;
 }
 
-#homePage.active{
-    animation:pageIn .4s ease;
-}
-
-@keyframes pageIn{
-    from{opacity:0;transform:translateY(15px);}
-    to{opacity:1;transform:none;}
+.page-head{
+    max-width:1250px;
+    margin:0 auto;
+    padding:70px 25px 30px;
 }
 
 .back-btn{
-    margin:35px 5%;
-    display:inline-block;
+    border:0;
+    background:none;
+    color:#00e5ff;
+    font-family:'Press Start 2P',monospace;
+    font-size:9px;
+    cursor:pointer;
+    margin-bottom:35px;
+}
+
+.back-btn:hover{
+    text-shadow:0 0 15px #00e5ff;
+}
+
+.page-head h1{
+    font-family:'Press Start 2P',monospace;
+    font-size:30px;
+    margin-bottom:25px;
+}
+
+.search-wrap{
+    position:relative;
+    max-width:700px;
+}
+
+.search{
+    width:100%;
+    padding:18px 22px;
+    background:#0a0c11;
+    border:1px solid #252a33;
+    color:#fff;
+    outline:none;
+    font-family:'Rajdhani',sans-serif;
+    font-size:18px;
+}
+
+.search:focus{
+    border-color:#00e5ff;
+    box-shadow:0 0 20px rgba(0,229,255,.1);
+}
+
+#gamesContainer{
+    max-width:1250px;
+    margin:0 auto;
+    padding:25px;
+}
+
+.no-results{
+    text-align:center;
+    padding:100px 20px;
+    display:none;
+}
+
+.no-results h2{
+    font-family:'Press Start 2P',monospace;
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+.no-results p{
+    color:#666;
 }
 
 /* =========================
@@ -483,85 +680,74 @@ nav a:hover{
 ========================= */
 
 .details{
-    min-height:700px;
-    padding:70px 7%;
+    max-width:1100px;
+    margin:0 auto;
+    padding:70px 25px 100px;
+}
+
+.details-layout{
     display:grid;
-    grid-template-columns:420px 1fr;
-    gap:60px;
-    align-items:center;
+    grid-template-columns:330px 1fr;
+    gap:50px;
 }
 
 .details-cover{
     width:100%;
-    max-height:560px;
+    aspect-ratio:2/3;
     object-fit:cover;
-    border:2px solid #00eaff;
-    box-shadow:12px 12px 0 #7b00ff;
+    border:1px solid rgba(0,229,255,.3);
+    box-shadow:0 0 35px rgba(0,229,255,.08);
 }
 
-.details h1{
-    font-family:'Press Start 2P';
-    font-size:clamp(25px,4vw,55px);
-    line-height:1.3;
-    text-shadow:4px 4px 0 #7b00ff;
-    margin-bottom:25px;
-}
-
-.details-description{
-    color:#aaa;
-    font-size:21px;
-    line-height:1.6;
-    max-width:750px;
-    margin-bottom:30px;
+.details-info h1{
+    font-family:'Press Start 2P',monospace;
+    font-size:30px;
+    line-height:1.5;
+    margin-bottom:20px;
 }
 
 .tags{
     display:flex;
+    gap:8px;
     flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
 .tag{
-    border:1px solid #00eaff;
-    color:#00eaff;
-    padding:8px 12px;
-    background:#071015;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(2,180px);
-    gap:15px;
-    margin-bottom:35px;
-}
-
-.stat{
-    background:#10101b;
-    border-left:3px solid #7b00ff;
-    padding:15px;
-}
-
-.stat small{
-    color:#777;
-    display:block;
-}
-
-.stat strong{
-    font-size:19px;
-}
-
-/* =========================
-   NO RESULTS
-========================= */
-
-.no-results{
-    display:none;
-    text-align:center;
-    padding:80px;
-    color:#777;
-    font-family:'Press Start 2P';
+    padding:7px 10px;
+    border:1px solid #00e5ff;
+    color:#00e5ff;
     font-size:12px;
+    font-weight:700;
+}
+
+.details-description{
+    color:#a2a6ae;
+    font-size:18px;
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+.detail-stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.detail-stat{
+    padding:17px;
+    background:#0b0d12;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.detail-stat small{
+    display:block;
+    color:#666;
+    margin-bottom:5px;
+}
+
+.detail-stat strong{
+    color:#fff;
 }
 
 /* =========================
@@ -569,59 +755,100 @@ nav a:hover{
 ========================= */
 
 footer{
+    margin-top:80px;
+    padding:45px 20px;
     text-align:center;
-    padding:50px 20px;
-    border-top:1px solid #20202d;
+    border-top:1px solid rgba(0,229,255,.15);
     color:#555;
-    font-family:'Press Start 2P';
-    font-size:9px;
-    line-height:2;
+}
+
+footer .footer-logo{
+    font-family:'Press Start 2P',monospace;
+    color:#00e5ff;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+footer p{
+    font-size:14px;
+    letter-spacing:1px;
 }
 
 /* =========================
-   RESPONSIVE
+   REVEAL
+========================= */
+
+.reveal{
+    opacity:0;
+    transform:translateY(25px);
+    transition:opacity .7s ease,transform .7s ease;
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+/* =========================
+   MOBILE
 ========================= */
 
 @media(max-width:1000px){
-    .trending-grid,
+    .game-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
     .category-grid{
         grid-template-columns:repeat(2,1fr);
     }
 
-    .details{
+    .featured{
         grid-template-columns:1fr;
     }
 
-    .details-cover{
-        max-width:500px;
+    .featured-image{
+        height:300px;
+    }
+
+    .featured-image::after{
+        background:linear-gradient(0deg,#090b10,transparent);
     }
 }
 
-@media(max-width:650px){
+@media(max-width:700px){
     header{
-        height:auto;
-        padding:18px 5%;
-        flex-direction:column;
-        gap:18px;
+        padding:0 20px;
     }
 
     nav{
         gap:12px;
-        flex-wrap:wrap;
-        justify-content:center;
     }
 
-    nav a{
-        font-size:12px;
+    nav button{
+        font-size:10px;
+    }
+
+    .logo{
+        font-size:14px;
     }
 
     .hero{
-        padding:70px 7%;
+        min-height:580px;
+        padding-top:70px;
     }
 
-    .trending-grid,
-    .category-grid{
+    .hero h1{
+        font-size:34px;
+        letter-spacing:2px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .stats{
         grid-template-columns:1fr;
+        margin-bottom:40px;
     }
 
     .game-grid{
@@ -629,26 +856,50 @@ footer{
     }
 
     .game-cover{
-        height:220px;
+        height:200px;
     }
 
-    .details{
-        padding:40px 6%;
+    .details-layout{
+        grid-template-columns:1fr;
     }
 
-    .stats{
-        grid-template-columns:1fr 1fr;
+    .details-cover{
+        max-width:300px;
+        margin:auto;
+    }
+
+    .details-info h1{
+        font-size:22px;
+    }
+
+    .section-title{
+        display:block;
+    }
+
+    .section-title p{
+        margin-top:10px;
     }
 }
 
-@keyframes cardIn{
-    from{
-        opacity:0;
-        transform:translateY(25px);
+@media(max-width:480px){
+    nav{
+        display:none;
     }
-    to{
-        opacity:1;
-        transform:none;
+
+    .game-grid{
+        grid-template-columns:1fr;
+    }
+
+    .category-grid{
+        grid-template-columns:1fr;
+    }
+
+    .featured-info{
+        padding:30px;
+    }
+
+    .hero h1{
+        font-size:29px;
     }
 }
 </style>
@@ -656,163 +907,184 @@ footer{
 
 <body>
 
+<div class="grid-bg"></div>
+
+<script>
+for(let i=0;i<35;i++){
+    const p=document.createElement("div");
+    p.className="particle";
+    p.style.left=Math.random()*100+"%";
+    p.style.animationDelay=Math.random()*8+"s";
+    p.style.animationDuration=(5+Math.random()*8)+"s";
+    document.body.appendChild(p);
+}
+</script>
+
 <!-- =========================
      HEADER
 ========================= -->
 
 <header>
-    <div class="logo">vexorix</div>
+    <div class="logo">VEX<span>O</span>RIX</div>
 
     <nav>
-        <a onclick="showHome()">HOME</a>
-        <a onclick="scrollToSection('trending')">TRENDING</a>
-        <a onclick="scrollToSection('categories')">CATEGORIES</a>
-        <a onclick="showAllGames()">ALL GAMES</a>
+        <button onclick="showHome()">HOME</button>
+        <button onclick="scrollToSection('trending')">TRENDING</button>
+        <button onclick="scrollToSection('categories')">CATEGORIES</button>
+        <button onclick="showAllGames()">ALL GAMES</button>
     </nav>
 </header>
 
-
 <!-- =========================
-     HOME PAGE
+     HOME
 ========================= -->
 
-<main id="homePage" class="page active">
+<main id="homePage">
 
 <section class="hero">
-
-    <div class="hero-grid"></div>
-
     <div class="hero-content">
 
-        <div class="small-title">
-            ★ WELCOME TO THE VAULT ★
-        </div>
+        <div class="hero-mini">★ WELCOME TO THE VAULT ★</div>
 
-        <h1>
-            PLAY.<br>
-            DISCOVER.<br>
-            REPEAT.
-        </h1>
+        <h1>VEX<span>O</span>RIX</h1>
+
+        <h2>PLAY. DISCOVER. REPEAT.</h2>
 
         <p>
-            Your retro gaming headquarters.
-            Discover legendary adventures, chaotic shooters,
-            racing machines, RPG worlds and everything in between.
+            Enter the ultimate gaming vault. Discover legendary worlds,
+            insane adventures, competitive battles and hidden gems —
+            all in one place.
         </p>
 
         <div class="hero-buttons">
-            <button class="btn" onclick="showAllGames()">
-                EXPLORE GAMES
-            </button>
-
-            <button class="btn" onclick="scrollToSection('categories')">
-                BROWSE GENRES
-            </button>
+            <button class="btn" onclick="showAllGames()">EXPLORE GAMES</button>
+            <button class="btn pink" onclick="scrollToSection('categories')">BROWSE GENRES</button>
         </div>
 
     </div>
 </section>
 
+<div class="stats">
+    <div class="stat">
+        <strong id="gameCount">40+</strong>
+        <span>GAMES</span>
+    </div>
+
+    <div class="stat">
+        <strong>8</strong>
+        <span>GENRES</span>
+    </div>
+
+    <div class="stat">
+        <strong>∞</strong>
+        <span>FUN</span>
+    </div>
+</div>
 
 <!-- TRENDING -->
 
-<section class="section" id="trending">
+<section id="trending" class="reveal">
 
     <div class="section-title">
-        <h2>🔥 TRENDING NOW</h2>
-        <span>HOT RIGHT NOW</span>
+        <div>
+            <h2>🔥 TRENDING NOW</h2>
+            <p>Games everyone is talking about.</p>
+        </div>
     </div>
 
-    <div class="trending-grid" id="trendingGrid"></div>
+    <div id="trendingContainer"></div>
 
 </section>
-
 
 <!-- TOP RATED -->
 
-<section class="section">
+<section class="reveal">
 
     <div class="section-title">
-        <h2>⭐ TOP RATED</h2>
-        <span>PLAYER FAVORITES</span>
+        <div>
+            <h2>⭐ TOP RATED</h2>
+            <p>Community favourites from the vault.</p>
+        </div>
     </div>
 
-    <div class="game-grid" id="topRatedGrid"></div>
+    <div class="game-grid" id="topRatedContainer"></div>
 
 </section>
 
+<!-- NEW -->
 
-<!-- NEW RELEASES -->
-
-<section class="section">
+<section class="reveal">
 
     <div class="section-title">
-        <h2>🆕 NEW RELEASES</h2>
-        <span>FRESH FROM THE VAULT</span>
+        <div>
+            <h2>🆕 NEW RELEASES</h2>
+            <p>Fresh arrivals to VEXORIX.</p>
+        </div>
     </div>
 
-    <div class="game-grid" id="newGamesGrid"></div>
+    <div class="game-grid" id="newGamesContainer"></div>
 
 </section>
-
 
 <!-- CATEGORIES -->
 
-<section class="section" id="categories">
+<section id="categories" class="reveal">
 
     <div class="section-title">
-        <h2>🎮 EXPLORE BY GENRE</h2>
-        <span>CHOOSE YOUR WEAPON</span>
+        <div>
+            <h2>🎮 EXPLORE BY GENRE</h2>
+            <p>Pick your battlefield.</p>
+        </div>
     </div>
 
     <div class="category-grid">
 
         <div class="category" onclick="openCategory('Shooting')">
             <div class="category-icon">🔫</div>
-            <h3>Shooting</h3>
-            <p>FPS • Battle Royale • Tactical</p>
+            <h3>SHOOTING</h3>
+            <span>FPS • Combat • PvP</span>
         </div>
 
         <div class="category" onclick="openCategory('Action')">
             <div class="category-icon">⚔️</div>
-            <h3>Action</h3>
-            <p>Combat • Open World • Adventure</p>
+            <h3>ACTION</h3>
+            <span>Combat • Chaos • Power</span>
         </div>
 
         <div class="category" onclick="openCategory('Racing')">
             <div class="category-icon">🏎️</div>
-            <h3>Racing</h3>
-            <p>Cars • Speed • Competition</p>
+            <h3>RACING</h3>
+            <span>Speed • Cars • Drift</span>
         </div>
 
         <div class="category" onclick="openCategory('Simulation')">
-            <div class="category-icon">🏗️</div>
-            <h3>Simulation</h3>
-            <p>Build • Create • Manage</p>
+            <div class="category-icon">🎮</div>
+            <h3>SIMULATION</h3>
+            <span>Build • Manage • Create</span>
         </div>
 
         <div class="category" onclick="openCategory('Adventure')">
             <div class="category-icon">🗺️</div>
-            <h3>Adventure</h3>
-            <p>Explore • Discover • Survive</p>
+            <h3>ADVENTURE</h3>
+            <span>Explore • Discover • Survive</span>
         </div>
 
         <div class="category" onclick="openCategory('Sports')">
             <div class="category-icon">🏆</div>
-            <h3>Sports</h3>
-            <p>Football • Basketball • Cricket</p>
+            <h3>SPORTS</h3>
+            <span>Compete • Score • Win</span>
         </div>
 
         <div class="category" onclick="openCategory('RPG')">
             <div class="category-icon">🧙</div>
             <h3>RPG</h3>
-            <p>Fantasy • Quests • Level Up</p>
+            <span>Quests • Worlds • Heroes</span>
         </div>
 
         <div class="category" onclick="openCategory('Horror')">
             <div class="category-icon">👻</div>
-            <h3>Horror</h3>
-            <p>Fear • Survival • Nightmare</p>
+            <h3>HORROR</h3>
+            <span>Fear • Mystery • Survival</span>
         </div>
 
     </div>
@@ -820,7 +1092,6 @@ footer{
 </section>
 
 </main>
-
 
 <!-- =========================
      GAMES PAGE
@@ -828,1335 +1099,780 @@ footer{
 
 <main id="gamesPage" class="page">
 
-    <button class="btn back-btn" onclick="showHome()">← BACK</button>
+    <div class="page-head">
 
-    <section class="section">
+        <button class="back-btn" onclick="showHome()">← BACK TO HOME</button>
 
-        <div class="section-title">
-            <h2 id="categoryTitle">ALL GAMES</h2>
-            <span id="gameCount"></span>
-        </div>
+        <h1 id="gamesTitle">ALL GAMES</h1>
 
-        <div class="search-box">
+        <div class="search-wrap">
             <input
+                id="searchInput"
+                class="search"
                 type="text"
-                id="gameSearch"
-                placeholder="🔎 Search games..."
+                placeholder="Search games..."
                 oninput="searchGames()"
             >
         </div>
 
-        <div class="game-grid" id="gamesGrid"></div>
+    </div>
 
-        <div class="no-results" id="noResults">
-            NO GAMES FOUND...
-        </div>
+    <div id="gamesContainer" class="game-grid"></div>
 
-    </section>
+    <div id="noResults" class="no-results">
+        <h2>GAME NOT FOUND</h2>
+        <p>That title isn't inside the vault... yet.</p>
+    </div>
 
 </main>
-
 
 <!-- =========================
      DETAILS PAGE
 ========================= -->
 
-<main id="gameDetails" class="page">
+<main id="detailsPage" class="page">
 
-    <button class="btn back-btn" onclick="backToGames()">
-        ← BACK TO GAMES
-    </button>
+    <div class="details">
 
-    <section class="details">
+        <button class="back-btn" onclick="backToGames()">← BACK TO GAMES</button>
 
-        <div>
-            <img id="detailImage" class="details-cover">
-        </div>
+        <div class="details-layout">
 
-        <div>
+            <img id="detailImage" class="details-cover" src="" alt="Game cover">
 
-            <h1 id="detailTitle"></h1>
+            <div class="details-info">
 
-            <div class="tags">
-                <span class="tag" id="detailGenre"></span>
-                <span class="tag" id="detailYear"></span>
-            </div>
+                <h1 id="detailTitle"></h1>
 
-            <p class="details-description" id="detailDescription"></p>
+                <div id="detailTags" class="tags"></div>
 
-            <div class="stats">
+                <p id="detailDescription" class="details-description"></p>
 
-                <div class="stat">
-                    <small>RATING</small>
-                    <strong id="detailRating"></strong>
-                </div>
+                <div class="detail-stats">
 
-                <div class="stat">
-                    <small>PLATFORM</small>
-                    <strong id="detailPlatform"></strong>
-                </div>
+                    <div class="detail-stat">
+                        <small>RATING</small>
+                        <strong id="detailRating"></strong>
+                    </div>
 
-                <div class="stat">
-                    <small>DEVELOPER</small>
-                    <strong id="detailDeveloper"></strong>
-                </div>
+                    <div class="detail-stat">
+                        <small>YEAR</small>
+                        <strong id="detailYear"></strong>
+                    </div>
 
-                <div class="stat">
-                    <small>RELEASE</small>
-                    <strong id="detailRelease"></strong>
+                    <div class="detail-stat">
+                        <small>PLATFORM</small>
+                        <strong id="detailPlatform"></strong>
+                    </div>
+
+                    <div class="detail-stat">
+                        <small>DEVELOPER</small>
+                        <strong id="detailDeveloper"></strong>
+                    </div>
+
                 </div>
 
             </div>
 
-            <button class="btn" onclick="showAllGames()">
-                BROWSE MORE GAMES
-            </button>
-
         </div>
 
-    </section>
+    </div>
 
 </main>
 
-
 <footer>
-    vexorix © 2000–2026<br>
-    INSERT COIN • SELECT GAME • HAVE FUN 🎮
+    <div class="footer-logo">VEXORIX</div>
+    <p>VEXORIX © 2000–2026</p>
+    <p>INSERT COIN • SELECT GAME • HAVE FUN 🎮</p>
 </footer>
-
 
 <script>
 
-/* =========================================================
+/* =========================
    GAME DATABASE
-========================================================= */
+========================= */
 
 const games = {
 
-Shooting: [
-
+Shooting:[
 {
-name:"Fortnite",
-year:"2017",
-rating:"8.5",
-genre:"Battle Royale",
-platform:"PC • Console",
-developer:"Epic Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1665460/header.jpg",
-description:"Drop into a massive battle royale, build, fight and survive until you become the last player standing."
-},
-
-{
-name:"Counter-Strike 2",
-year:"2023",
-rating:"9.0",
-genre:"Tactical FPS",
-platform:"PC",
+title:"Counter-Strike 2",
+genre:"Shooting",
+year:2023,
+rating:9.1,
 developer:"Valve",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
-description:"The legendary competitive tactical shooter returns with upgraded graphics, smoke physics and intense team-based combat."
+platform:"PC",
+description:"The legendary tactical shooter returns with modern visuals, competitive gunplay and intense team-based combat.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg"
 },
-
 {
-name:"Apex Legends",
-year:"2019",
-rating:"8.8",
-genre:"Battle Royale FPS",
-platform:"PC • Console",
+title:"Apex Legends",
+genre:"Shooting",
+year:2019,
+rating:8.8,
 developer:"Respawn Entertainment",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg",
-description:"Choose a Legend, squad up and battle through a fast-paced hero shooter built around unique abilities and movement."
-},
-
-{
-name:"PUBG: Battlegrounds",
-year:"2017",
-rating:"8.4",
-genre:"Battle Royale",
 platform:"PC • Console",
-developer:"KRAFTON",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg",
-description:"Land, loot and survive in a massive battle royale where every decision could be your last."
+description:"Fast movement, unique legends and squad-based battle royale action.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg"
 },
-
 {
-name:"Overwatch 2",
-year:"2022",
-rating:"8.0",
-genre:"Hero Shooter",
-platform:"PC • Console",
+title:"Overwatch 2",
+genre:"Shooting",
+year:2022,
+rating:8.4,
 developer:"Blizzard",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2357570/header.jpg",
-description:"Choose from a roster of heroes and combine unique abilities in explosive team-based battles."
-},
-
-{
-name:"DOOM Eternal",
-year:"2020",
-rating:"9.2",
-genre:"FPS",
 platform:"PC • Console",
-developer:"id Software",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/782330/header.jpg",
-description:"Rip and tear through demonic armies in one of the fastest and most aggressive shooters ever made."
+description:"Hero-based team combat packed with unique abilities and fast matches.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2357570/header.jpg"
 },
-
 {
-name:"Halo Infinite",
-year:"2021",
-rating:"8.6",
-genre:"Sci-Fi FPS",
-platform:"PC • Xbox",
-developer:"343 Industries",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/header.jpg",
-description:"Become Master Chief and fight across a mysterious Halo ring in a legendary sci-fi adventure."
-},
-
-{
-name:"Rainbow Six Siege",
-year:"2015",
-rating:"8.7",
-genre:"Tactical FPS",
+title:"PUBG: Battlegrounds",
+genre:"Shooting",
+year:2017,
+rating:8.6,
+developer:"KRAFTON",
 platform:"PC • Console",
-developer:"Ubisoft",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/359550/header.jpg",
-description:"Plan, breach and defend in tactical five-versus-five matches where destruction and teamwork matter."
+description:"Drop into the battlefield, loot up and fight to become the last player standing.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg"
 },
-
 {
-name:"Valorant",
-year:"2020",
-rating:"8.7",
-genre:"Tactical Shooter",
-platform:"PC",
-developer:"Riot Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1281930/header.jpg",
-description:"Combine precise gunplay with unique agent abilities in Riot's competitive tactical shooter."
-},
-
-{
-name:"Call of Duty: Modern Warfare II",
-year:"2022",
-rating:"8.5",
-genre:"Military FPS",
+title:"Destiny 2",
+genre:"Shooting",
+year:2017,
+rating:8.7,
+developer:"Bungie",
 platform:"PC • Console",
-developer:"Infinity Ward",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1938090/header.jpg",
-description:"Experience cinematic military missions and high-speed multiplayer combat."
+description:"Explore a massive sci-fi universe filled with weapons, abilities and online battles.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/header.jpg"
 }
-
 ],
 
-Action: [
-
+Action:[
 {
-name:"Grand Theft Auto V",
-year:"2013",
-rating:"9.5",
-genre:"Open World Action",
-platform:"PC • Console",
-developer:"Rockstar Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
-description:"Explore Los Santos through three criminals whose lives collide in a huge open-world crime adventure."
-},
-
-{
-name:"Marvel's Spider-Man Remastered",
-year:"2022",
-rating:"9.1",
-genre:"Superhero Action",
-platform:"PC • PS5",
-developer:"Insomniac Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1817190/header.jpg",
-description:"Swing through New York City, fight villains and experience the life of Spider-Man."
-},
-
-{
-name:"God of War",
-year:"2018",
-rating:"9.6",
-genre:"Action Adventure",
-platform:"PC • PlayStation",
-developer:"Santa Monica Studio",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg",
-description:"Kratos and Atreus journey through a dangerous Norse world filled with gods, monsters and secrets."
-},
-
-{
-name:"Batman: Arkham Knight",
-year:"2015",
-rating:"9.0",
-genre:"Superhero Action",
-platform:"PC • Console",
-developer:"Rocksteady",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/208650/header.jpg",
-description:"Become Batman and protect Gotham while facing the mysterious Arkham Knight."
-},
-
-{
-name:"Devil May Cry 5",
-year:"2019",
-rating:"9.1",
-genre:"Hack & Slash",
-platform:"PC • Console",
-developer:"Capcom",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/601150/header.jpg",
-description:"Master stylish combat and battle demonic enemies as three powerful characters."
-},
-
-{
-name:"Sekiro: Shadows Die Twice",
-year:"2019",
-rating:"9.3",
+title:"Grand Theft Auto V",
 genre:"Action",
-platform:"PC • Console",
-developer:"FromSoftware",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/814380/header.jpg",
-description:"Fight through a brutal Japanese-inspired world where precision and timing are everything."
-},
-
-{
-name:"Metal Gear Solid V",
-year:"2015",
-rating:"9.0",
-genre:"Stealth Action",
-platform:"PC • Console",
-developer:"Konami",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/287700/header.jpg",
-description:"Take control of Venom Snake in an open-world stealth adventure packed with tactical freedom."
-},
-
-{
-name:"Watch Dogs 2",
-year:"2016",
-rating:"8.7",
-genre:"Open World",
-platform:"PC • Console",
-developer:"Ubisoft",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/447040/header.jpg",
-description:"Hack the connected city of San Francisco as Marcus Holloway and the DedSec crew."
-},
-
-{
-name:"Just Cause 3",
-year:"2015",
-rating:"8.2",
-genre:"Open World Action",
-platform:"PC • Console",
-developer:"Avalanche Studios",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/225540/header.jpg",
-description:"Cause massive chaos using wingsuits, grappling hooks, explosives and vehicles."
-},
-
-{
-name:"Assassin's Creed IV: Black Flag",
-year:"2013",
-rating:"9.0",
-genre:"Action Adventure",
-platform:"PC • Console",
-developer:"Ubisoft",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/242050/header.jpg",
-description:"Become a pirate captain and explore the Caribbean during the golden age of piracy."
-}
-
-],
-
-Racing: [
-
-{
-name:"Forza Horizon 5",
-year:"2021",
-rating:"9.2",
-genre:"Open World Racing",
-platform:"PC • Xbox",
-developer:"Playground Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg",
-description:"Drive hundreds of incredible cars across the stunning landscapes of Mexico."
-},
-
-{
-name:"Need for Speed Heat",
-year:"2019",
-rating:"8.4",
-genre:"Street Racing",
-platform:"PC • Console",
-developer:"Ghost Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1222680/header.jpg",
-description:"Race through Palm City by day and risk everything in illegal night races."
-},
-
-{
-name:"Need for Speed Unbound",
-year:"2022",
-rating:"8.2",
-genre:"Street Racing",
-platform:"PC • Console",
-developer:"Criterion Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1846380/header.jpg",
-description:"Combine realistic cars with graffiti-inspired visual effects in a stylish street racing world."
-},
-
-{
-name:"F1 25",
-year:"2025",
-rating:"8.4",
-genre:"Formula Racing",
-platform:"PC • Console",
-developer:"Codemasters",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/3059520/header.jpg",
-description:"Experience the official Formula 1 racing experience with authentic circuits and teams."
-},
-
-{
-name:"Assetto Corsa",
-year:"2014",
-rating:"9.0",
-genre:"Racing Simulator",
-platform:"PC • Console",
-developer:"Kunos Simulazioni",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/244210/header.jpg",
-description:"A realistic racing simulator built around detailed physics and authentic driving."
-},
-
-{
-name:"The Crew Motorfest",
-year:"2023",
-rating:"8.1",
-genre:"Open World Racing",
-platform:"PC • Console",
-developer:"Ubisoft",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2698940/header.jpg",
-description:"Drive through the beautiful Hawaiian island of Oahu in a massive car festival."
-},
-
-{
-name:"Trackmania",
-year:"2020",
-rating:"8.5",
-genre:"Arcade Racing",
-platform:"PC",
-developer:"Ubisoft",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2225070/header.jpg",
-description:"Race through creative tracks and chase impossible lap times."
-},
-
-{
-name:"Dirt Rally 2.0",
-year:"2019",
-rating:"8.8",
-genre:"Rally Racing",
-platform:"PC • Console",
-developer:"Codemasters",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/690790/header.jpg",
-description:"Push rally cars to their limits across challenging surfaces and unpredictable stages."
-}
-
-],
-
-Simulation: [
-
-{
-name:"The Sims 4",
-year:"2014",
-rating:"8.4",
-genre:"Life Simulation",
-platform:"PC • Console",
-developer:"Maxis",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
-description:"Create characters, build homes and control every part of their virtual lives."
-},
-
-{
-name:"Microsoft Flight Simulator",
-year:"2020",
-rating:"9.2",
-genre:"Flight Simulation",
-platform:"PC • Xbox",
-developer:"Asobo Studio",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1250410/header.jpg",
-description:"Fly across an incredibly detailed digital recreation of the entire planet."
-},
-
-{
-name:"Cities: Skylines",
-year:"2015",
-rating:"9.0",
-genre:"City Builder",
-platform:"PC • Console",
-developer:"Colossal Order",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/255710/header.jpg",
-description:"Build, manage and expand your dream city while dealing with traffic, citizens and disasters."
-},
-
-{
-name:"Euro Truck Simulator 2",
-year:"2012",
-rating:"9.1",
-genre:"Driving Simulation",
-platform:"PC",
-developer:"SCS Software",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/227300/header.jpg",
-description:"Become a truck driver and travel across Europe delivering cargo."
-},
-
-{
-name:"Farming Simulator 25",
-year:"2024",
-rating:"8.5",
-genre:"Farming Simulation",
-platform:"PC • Console",
-developer:"GIANTS Software",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2300320/header.jpg",
-description:"Build your farming empire with realistic machinery, crops, animals and huge fields."
-},
-
-{
-name:"Planet Zoo",
-year:"2019",
-rating:"8.9",
-genre:"Management Simulation",
-platform:"PC",
-developer:"Frontier Developments",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/703080/header.jpg",
-description:"Design and manage a beautiful zoo while taking care of hundreds of animals."
-},
-
-{
-name:"PC Building Simulator",
-year:"2019",
-rating:"8.6",
-genre:"Technology Simulation",
-platform:"PC • Console",
-developer:"The Irregular Corporation",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/621060/header.jpg",
-description:"Build custom PCs, install components and run your own computer repair business."
-},
-
-{
-name:"Kerbal Space Program",
-year:"2015",
-rating:"9.2",
-genre:"Space Simulation",
-platform:"PC • Console",
-developer:"Squad",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/220200/header.jpg",
-description:"Design rockets and attempt to send your tiny Kerbal astronauts into space."
-}
-
-],
-
-Adventure: [
-
-{
-name:"Red Dead Redemption 2",
-year:"2018",
-rating:"9.8",
-genre:"Open World Adventure",
-platform:"PC • Console",
+year:2013,
+rating:9.4,
 developer:"Rockstar Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg",
-description:"Live the life of Arthur Morgan across a massive and beautifully detailed Wild West."
-},
-
-{
-name:"Tomb Raider",
-year:"2013",
-rating:"9.0",
-genre:"Action Adventure",
 platform:"PC • Console",
-developer:"Crystal Dynamics",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/203160/header.jpg",
-description:"Follow Lara Croft's transformation from survivor to legendary adventurer."
+description:"Explore Los Santos in one of gaming's biggest open-world adventures.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg"
 },
-
 {
-name:"Hogwarts Legacy",
-year:"2023",
-rating:"8.8",
-genre:"Fantasy Adventure",
-platform:"PC • Console",
-developer:"Avalanche Software",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg",
-description:"Explore Hogwarts and the surrounding wizarding world as a student with a mysterious magical ability."
-},
-
-{
-name:"Horizon Zero Dawn",
-year:"2017",
-rating:"9.1",
-genre:"Open World Adventure",
-platform:"PC • PlayStation",
-developer:"Guerrilla",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1151640/header.jpg",
-description:"Hunt giant machines and uncover the secrets of a beautiful post-apocalyptic world."
-},
-
-{
-name:"Ghost of Tsushima",
-year:"2024",
-rating:"9.4",
-genre:"Samurai Adventure",
-platform:"PC • PlayStation",
-developer:"Sucker Punch",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2215430/header.jpg",
-description:"Become Jin Sakai and defend Tsushima while mastering the way of the samurai."
-},
-
-{
-name:"Uncharted: Legacy of Thieves Collection",
-year:"2022",
-rating:"9.2",
-genre:"Adventure",
-platform:"PC • PlayStation",
-developer:"Naughty Dog",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1659420/header.jpg",
-description:"Join Nathan Drake and Chloe Frazer on cinematic treasure-hunting adventures."
-},
-
-{
-name:"The Last of Us Part I",
-year:"2022",
-rating:"9.5",
-genre:"Survival Adventure",
-platform:"PC • PlayStation",
-developer:"Naughty Dog",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1888930/header.jpg",
-description:"Journey through a post-pandemic America with Joel and Ellie."
-},
-
-{
-name:"Assassin's Creed Origins",
-year:"2017",
-rating:"8.9",
-genre:"Historical Adventure",
-platform:"PC • Console",
-developer:"Ubisoft",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/582160/header.jpg",
-description:"Explore ancient Egypt and uncover the origins of the Assassin Brotherhood."
-}
-
-],
-
-Sports: [
-
-{
-name:"EA Sports FC 25",
-year:"2024",
-rating:"8.1",
-genre:"Football",
-platform:"PC • Console",
-developer:"EA Sports",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2669320/header.jpg",
-description:"Build your dream football team and compete across authentic football modes."
-},
-
-{
-name:"NBA 2K25",
-year:"2024",
-rating:"8.0",
-genre:"Basketball",
-platform:"PC • Console",
-developer:"Visual Concepts",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2878980/header.jpg",
-description:"Experience realistic basketball gameplay, MyCAREER and competitive online modes."
-},
-
-{
-name:"WWE 2K25",
-year:"2025",
-rating:"8.2",
-genre:"Wrestling",
-platform:"PC • Console",
-developer:"Visual Concepts",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2878960/header.jpg",
-description:"Step into the ring with WWE superstars and create your own wrestling moments."
-},
-
-{
-name:"Cricket 24",
-year:"2023",
-rating:"7.8",
-genre:"Cricket",
-platform:"PC • Console",
-developer:"Big Ant Studios",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2358260/header.jpg",
-description:"Play authentic cricket with licensed teams, tournaments and career modes."
-},
-
-{
-name:"eFootball",
-year:"2021",
-rating:"7.7",
-genre:"Football",
-platform:"PC • Console • Mobile",
-developer:"Konami",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1665460/header.jpg",
-description:"Build your football squad and compete online in Konami's free-to-play football experience."
-},
-
-{
-name:"Rocket League",
-year:"2015",
-rating:"9.0",
-genre:"Sports Racing",
-platform:"PC • Console",
-developer:"Psyonix",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/252950/header.jpg",
-description:"Cars + football = absolute chaos. Score goals using rocket-powered vehicles."
-},
-
-{
-name:"MLB The Show 25",
-year:"2025",
-rating:"8.3",
-genre:"Baseball",
-platform:"Console",
-developer:"San Diego Studio",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2765710/header.jpg",
-description:"Experience realistic baseball gameplay and build your career from the ground up."
-},
-
-{
-name:"Tony Hawk's Pro Skater 1 + 2",
-year:"2020",
-rating:"9.2",
-genre:"Skateboarding",
-platform:"PC • Console",
-developer:"Vicarious Visions",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2395210/header.jpg",
-description:"Pull off insane tricks and revisit legendary skateboarding levels."
-}
-
-],
-
-RPG: [
-
-{
-name:"Elden Ring",
-year:"2022",
-rating:"9.8",
-genre:"Action RPG",
-platform:"PC • Console",
-developer:"FromSoftware",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
-description:"Explore the vast Lands Between, defeat terrifying bosses and discover an enormous fantasy world."
-},
-
-{
-name:"Cyberpunk 2077",
-year:"2020",
-rating:"9.1",
-genre:"Open World RPG",
-platform:"PC • Console",
-developer:"CD Projekt Red",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
-description:"Become V, a mercenary in Night City, and shape your own story in a futuristic open world."
-},
-
-{
-name:"The Witcher 3",
-year:"2015",
-rating:"9.8",
-genre:"Fantasy RPG",
-platform:"PC • Console",
-developer:"CD Projekt Red",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
-description:"Become Geralt of Rivia and hunt monsters across one of gaming's greatest fantasy worlds."
-},
-
-{
-name:"The Elder Scrolls V: Skyrim",
-year:"2011",
-rating:"9.5",
-genre:"Fantasy RPG",
-platform:"PC • Console",
-developer:"Bethesda",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/489830/header.jpg",
-description:"Explore Skyrim, master powerful abilities and become the legendary Dragonborn."
-},
-
-{
-name:"Baldur's Gate 3",
-year:"2023",
-rating:"9.8",
-genre:"Fantasy RPG",
-platform:"PC • Console",
-developer:"Larian Studios",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",
-description:"Create your character and shape an enormous story through choices, battles and relationships."
-},
-
-{
-name:"Fallout 4",
-year:"2015",
-rating:"9.0",
-genre:"Post-Apocalyptic RPG",
-platform:"PC • Console",
-developer:"Bethesda",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/377160/header.jpg",
-description:"Explore a devastated Boston and build settlements while searching for your missing child."
-},
-
-{
-name:"Persona 5 Royal",
-year:"2020",
-rating:"9.5",
-genre:"JRPG",
-platform:"PC • Console",
-developer:"Atlus",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1687950/header.jpg",
-description:"Live the life of a student by day and become a Phantom Thief by night."
-},
-
-{
-name:"Dragon Age: Inquisition",
-year:"2014",
-rating:"9.0",
-genre:"Fantasy RPG",
-platform:"PC • Console",
-developer:"BioWare",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1222690/header.jpg",
-description:"Lead the Inquisition and save Thedas from a mysterious magical catastrophe."
-}
-
-],
-
-Horror: [
-
-{
-name:"Resident Evil 2",
-year:"2019",
-rating:"9.4",
-genre:"Survival Horror",
-platform:"PC • Console",
-developer:"Capcom",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/883710/header.jpg",
-description:"Survive Raccoon City's nightmare as Leon Kennedy or Claire Redfield."
-},
-
-{
-name:"Resident Evil 4",
-year:"2023",
-rating:"9.5",
-genre:"Survival Horror",
-platform:"PC • Console",
-developer:"Capcom",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg",
-description:"Leon Kennedy travels to a remote European village to rescue the president's daughter."
-},
-
-{
-name:"Five Nights at Freddy's",
-year:"2014",
-rating:"8.5",
-genre:"Horror",
-platform:"PC • Console",
-developer:"Scott Cawthon",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/319510/header.jpg",
-description:"Survive five terrifying nights while mysterious animatronic characters roam the restaurant."
-},
-
-{
-name:"Outlast",
-year:"2013",
-rating:"8.9",
-genre:"Survival Horror",
-platform:"PC • Console",
-developer:"Red Barrels",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/238320/header.jpg",
-description:"Investigate a terrifying abandoned asylum armed with nothing but a camera."
-},
-
-{
-name:"Phasmophobia",
-year:"2020",
-rating:"8.9",
-genre:"Co-op Horror",
-platform:"PC • Console",
-developer:"Kinetic Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/739630/header.jpg",
-description:"Team up with friends and investigate haunted locations to identify supernatural entities."
-},
-
-{
-name:"Amnesia: The Dark Descent",
-year:"2010",
-rating:"9.0",
-genre:"Psychological Horror",
-platform:"PC",
-developer:"Frictional Games",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/57300/header.jpg",
-description:"Explore a terrifying castle while trying to survive the darkness and preserve your sanity."
-},
-
-{
-name:"Dead Space",
-year:"2023",
-rating:"9.2",
-genre:"Sci-Fi Horror",
-platform:"PC • Console",
-developer:"Motive Studio",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1693980/header.jpg",
-description:"Fight terrifying creatures aboard a doomed mining spaceship."
-},
-
-{
-name:"SILENT HILL 2",
-year:"2024",
-rating:"9.1",
-genre:"Psychological Horror",
+title:"Marvel's Spider-Man Remastered",
+genre:"Action",
+year:2022,
+rating:9.2,
+developer:"Insomniac Games",
 platform:"PC • PS5",
-developer:"Bloober Team",
-image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2124490/header.jpg",
-description:"James Sunderland enters the foggy town of Silent Hill after receiving a mysterious letter."
+description:"Swing through New York and experience a cinematic superhero adventure.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/header.jpg"
+},
+{
+title:"Batman: Arkham Knight",
+genre:"Action",
+year:2015,
+rating:9.0,
+developer:"Rocksteady Studios",
+platform:"PC • Console",
+description:"Become Batman and defend Gotham from a city-wide threat.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/208650/header.jpg"
+},
+{
+title:"Devil May Cry 5",
+genre:"Action",
+year:2019,
+rating:9.1,
+developer:"Capcom",
+platform:"PC • Console",
+description:"Stylish combat, insane combos and demonic enemies.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/601150/header.jpg"
+},
+{
+title:"God of War",
+genre:"Action",
+year:2018,
+rating:9.5,
+developer:"Santa Monica Studio",
+platform:"PC • PS",
+description:"A brutal mythological journey through the Norse world.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg"
 }
+],
 
+Racing:[
+{
+title:"Forza Horizon 5",
+genre:"Racing",
+year:2021,
+rating:9.3,
+developer:"Playground Games",
+platform:"PC • Xbox",
+description:"Drive across a massive open world inspired by Mexico.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg"
+},
+{
+title:"Need for Speed Heat",
+genre:"Racing",
+year:2019,
+rating:8.4,
+developer:"Ghost Games",
+platform:"PC • Console",
+description:"Race by day and risk everything during illegal night races.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1222680/header.jpg"
+},
+{
+title:"Assetto Corsa",
+genre:"Racing",
+year:2014,
+rating:8.9,
+developer:"KUNOS Simulazioni",
+platform:"PC • Console",
+description:"A realistic racing simulator built for driving enthusiasts.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/244210/header.jpg"
+},
+{
+title:"Trackmania",
+genre:"Racing",
+year:2020,
+rating:8.5,
+developer:"Ubisoft",
+platform:"PC",
+description:"Fast arcade racing across impossible tracks.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2225070/header.jpg"
+}
+],
+
+Simulation:[
+{
+title:"The Sims 4",
+genre:"Simulation",
+year:2014,
+rating:8.5,
+developer:"Maxis",
+platform:"PC • Console",
+description:"Build homes, create characters and control your own virtual world.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg"
+},
+{
+title:"Euro Truck Simulator 2",
+genre:"Simulation",
+year:2012,
+rating:9.2,
+developer:"SCS Software",
+platform:"PC",
+description:"Travel across Europe while building your trucking empire.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/227300/header.jpg"
+},
+{
+title:"Cities: Skylines",
+genre:"Simulation",
+year:2015,
+rating:9.0,
+developer:"Colossal Order",
+platform:"PC • Console",
+description:"Create and manage your own dream city.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/255710/header.jpg"
+},
+{
+title:"Microsoft Flight Simulator",
+genre:"Simulation",
+year:2020,
+rating:9.1,
+developer:"Asobo Studio",
+platform:"PC • Xbox",
+description:"Take to the skies across a stunning digital version of Earth.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1250410/header.jpg"
+}
+],
+
+Adventure:[
+{
+title:"Minecraft",
+genre:"Adventure",
+year:2011,
+rating:9.6,
+developer:"Mojang",
+platform:"PC • Console • Mobile",
+description:"Build, explore and survive in an endless block-based world.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/322330/header.jpg"
+},
+{
+title:"Red Dead Redemption 2",
+genre:"Adventure",
+year:2018,
+rating:9.7,
+developer:"Rockstar Games",
+platform:"PC • Console",
+description:"Experience the final years of the Wild West in an enormous open world.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg"
+},
+{
+title:"Tomb Raider",
+genre:"Adventure",
+year:2013,
+rating:8.8,
+developer:"Crystal Dynamics",
+platform:"PC • Console",
+description:"Join Lara Croft on a dangerous expedition filled with exploration and survival.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/203160/header.jpg"
+},
+{
+title:"Terraria",
+genre:"Adventure",
+year:2011,
+rating:9.3,
+developer:"Re-Logic",
+platform:"PC • Console • Mobile",
+description:"Dig, fight, explore and build in a massive pixel adventure.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg"
+},
+{
+title:"Subnautica",
+genre:"Adventure",
+year:2018,
+rating:9.0,
+developer:"Unknown Worlds",
+platform:"PC • Console",
+description:"Explore an alien ocean filled with beauty, danger and mystery.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/264710/header.jpg"
+}
+],
+
+Sports:[
+{
+title:"EA SPORTS FC 24",
+genre:"Sports",
+year:2023,
+rating:8.1,
+developer:"EA",
+platform:"PC • Console",
+description:"Build your squad and experience football across multiple game modes.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/header.jpg"
+},
+{
+title:"Rocket League",
+genre:"Sports",
+year:2015,
+rating:9.0,
+developer:"Psyonix",
+platform:"PC • Console",
+description:"Football meets rocket-powered cars in this chaotic competitive classic.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/252950/header.jpg"
+},
+{
+title:"NBA 2K25",
+genre:"Sports",
+year:2024,
+rating:8.2,
+developer:"Visual Concepts",
+platform:"PC • Console",
+description:"Hit the court and compete across multiple basketball modes.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2878980/header.jpg"
+},
+{
+title:"WWE 2K24",
+genre:"Sports",
+year:2024,
+rating:8.3,
+developer:"Visual Concepts",
+platform:"PC • Console",
+description:"Step into the ring with legendary WWE superstars.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2315690/header.jpg"
+}
+],
+
+RPG:[
+{
+title:"The Witcher 3",
+genre:"RPG",
+year:2015,
+rating:9.8,
+developer:"CD PROJEKT RED",
+platform:"PC • Console",
+description:"Become Geralt of Rivia and explore one of gaming's richest fantasy worlds.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg"
+},
+{
+title:"Elden Ring",
+genre:"RPG",
+year:2022,
+rating:9.6,
+developer:"FromSoftware",
+platform:"PC • Console",
+description:"Explore a mysterious open world filled with powerful enemies and secrets.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg"
+},
+{
+title:"Cyberpunk 2077",
+genre:"RPG",
+year:2020,
+rating:9.0,
+developer:"CD PROJEKT RED",
+platform:"PC • Console",
+description:"Enter Night City and become a futuristic mercenary.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg"
+},
+{
+title:"Baldur's Gate 3",
+genre:"RPG",
+year:2023,
+rating:9.7,
+developer:"Larian Studios",
+platform:"PC • Console",
+description:"A massive fantasy RPG where every decision can change the adventure.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg"
+},
+{
+title:"Skyrim",
+genre:"RPG",
+year:2011,
+rating:9.5,
+developer:"Bethesda Game Studios",
+platform:"PC • Console",
+description:"Explore the legendary province of Skyrim as the Dragonborn.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/489830/header.jpg"
+}
+],
+
+Horror:[
+{
+title:"Resident Evil 4",
+genre:"Horror",
+year:2023,
+rating:9.4,
+developer:"Capcom",
+platform:"PC • Console",
+description:"Survive a terrifying rescue mission filled with enemies and secrets.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg"
+},
+{
+title:"Phasmophobia",
+genre:"Horror",
+year:2020,
+rating:8.9,
+developer:"Kinetic Games",
+platform:"PC",
+description:"Investigate haunted locations and identify paranormal entities.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/739630/header.jpg"
+},
+{
+title:"Dead by Daylight",
+genre:"Horror",
+year:2016,
+rating:8.6,
+developer:"Behaviour Interactive",
+platform:"PC • Console",
+description:"Four survivors face one terrifying killer in asymmetrical multiplayer.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/381210/header.jpg"
+},
+{
+title:"Outlast",
+genre:"Horror",
+year:2013,
+rating:8.8,
+developer:"Red Barrels",
+platform:"PC • Console",
+description:"Investigate a disturbing abandoned asylum where something has gone horribly wrong.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/238320/header.jpg"
+},
+{
+title:"Amnesia: The Dark Descent",
+genre:"Horror",
+year:2010,
+rating:8.7,
+developer:"Frictional Games",
+platform:"PC",
+description:"Explore a dark castle while trying to survive the unknown.",
+image:"https://cdn.cloudflare.steamstatic.com/steam/apps/57300/header.jpg"
+}
 ]
 
 };
 
-
-/* =========================================================
-   UTILITIES
-========================================================= */
-
-let currentCategory = null;
-
-
-/* Get all games */
+/* =========================
+   HELPERS
+========================= */
 
 function getAllGames(){
-
-    let all = [];
-
-    Object.keys(games).forEach(category => {
-
-        games[category].forEach(game => {
-
-            all.push({
-                ...game,
-                category:category
-            });
-
-        });
-
-    });
-
-    return all;
+    return Object.values(games).flat();
 }
-
-
-/* Create game card */
 
 function createGameCard(game,index=0){
 
+    const isNew = game.year >= 2023;
+    const isTop = game.rating >= 9.3;
+
     return `
-        <div class="game-card"
-             style="animation-delay:${index*0.04}s"
-             onclick='openGame(${JSON.stringify(game).replace(/'/g,"&#39;")})'>
+        <div class="game-card" onclick='openGame(${JSON.stringify(game).replace(/'/g,"&#39;")})'>
 
             <div class="game-cover">
 
                 <img
                     src="${game.image}"
-                    alt="${game.name}"
+                    alt="${game.title}"
                     loading="lazy"
-                    onerror="this.src='https://placehold.co/600x900/10101b/00eaff?text=${encodeURIComponent(game.name)}'"
+                    onerror="this.src='https://placehold.co/600x900/090b10/00e5ff?text=VEXORIX'"
                 >
+
+                ${isNew ? '<div class="game-badge new">NEW</div>' : ''}
+                ${!isNew && isTop ? '<div class="game-badge">TOP</div>' : ''}
+
+                <div class="game-rating">
+                    ★ ${game.rating}
+                </div>
+
+                <div class="game-overlay">
+                    <div class="view-game">VIEW GAME</div>
+                </div>
 
             </div>
 
             <div class="game-info">
 
-                <h3>${game.name}</h3>
+                <h3>${game.title}</h3>
+
+                <p>${game.genre}</p>
 
                 <div class="game-meta">
-
-                    <span>${game.genre}</span>
-
-                    <span class="rating">
-                        ★ ${game.rating}
-                    </span>
-
+                    <span>${game.year}</span>
+                    <span>★ ${game.rating}</span>
                 </div>
 
             </div>
 
         </div>
     `;
-
 }
 
-
-/* =========================================================
-   TRENDING
-========================================================= */
-
-const trendingNames = [
-
-    "Grand Theft Auto V",
-    "Elden Ring",
-    "Cyberpunk 2077",
-    "Counter-Strike 2"
-
-];
+/* =========================
+   HOME LOADERS
+========================= */
 
 function loadTrending(){
 
-    const container =
-        document.getElementById("trendingGrid");
+    const all=getAllGames()
+        .sort((a,b)=>b.rating-a.rating);
 
-    container.innerHTML = "";
+    const game=all[0];
 
-    trendingNames.forEach((name,index)=>{
+    document.getElementById("trendingContainer").innerHTML=`
 
-        const game =
-            getAllGames().find(g=>g.name===name);
+        <div class="featured">
 
-        if(!game) return;
-
-        container.innerHTML += `
-
-            <div class="trending-card"
-                 onclick='openGame(${JSON.stringify(game)})'>
-
+            <div class="featured-image">
                 <img
                     src="${game.image}"
-                    alt="${game.name}"
-                    onerror="this.src='https://placehold.co/1000x600/10101b/00eaff?text=${encodeURIComponent(game.name)}'"
+                    alt="${game.title}"
+                    onerror="this.src='https://placehold.co/1200x700/090b10/00e5ff?text=VEXORIX'"
                 >
+            </div>
 
-                <div class="trending-overlay">
+            <div class="featured-info">
 
-                    <div class="trending-number">
-                        #0${index+1}
-                    </div>
+                <div class="rank">★ #1 IN THE VAULT</div>
 
-                    <h3>${game.name}</h3>
+                <h3>${game.title}</h3>
 
-                    <div class="rating">
-                        ★ ${game.rating}
-                    </div>
+                <p>${game.description}</p>
 
+                <div>
+                    <button class="btn" onclick='openGame(${JSON.stringify(game).replace(/'/g,"&#39;")})'>
+                        VIEW GAME
+                    </button>
                 </div>
 
             </div>
-        `;
 
-    });
-
+        </div>
+    `;
 }
-
-
-/* =========================================================
-   TOP RATED
-========================================================= */
 
 function loadTopRated(){
 
-    const container =
-        document.getElementById("topRatedGrid");
-
-    const top =
-        getAllGames()
-        .sort((a,b)=>parseFloat(b.rating)-parseFloat(a.rating))
+    const all=getAllGames()
+        .sort((a,b)=>b.rating-a.rating)
         .slice(0,8);
 
-    container.innerHTML =
-        top.map((g,i)=>createGameCard(g,i)).join("");
-
+    document.getElementById("topRatedContainer").innerHTML=
+        all.map((game,i)=>createGameCard(game,i)).join("");
 }
-
-
-/* =========================================================
-   NEW GAMES
-========================================================= */
 
 function loadNewGames(){
 
-    const container =
-        document.getElementById("newGamesGrid");
-
-    const newest =
-        getAllGames()
-        .sort((a,b)=>parseInt(b.year)-parseInt(a.year))
+    const all=getAllGames()
+        .sort((a,b)=>b.year-a.year)
         .slice(0,8);
 
-    container.innerHTML =
-        newest.map((g,i)=>createGameCard(g,i)).join("");
-
+    document.getElementById("newGamesContainer").innerHTML=
+        all.map((game,i)=>createGameCard(game,i)).join("");
 }
 
-
-/* =========================================================
-   CATEGORY
-========================================================= */
+/* =========================
+   PAGE NAVIGATION
+========================= */
 
 function openCategory(category){
 
-    currentCategory = category;
+    document.getElementById("homePage").style.display="none";
+    document.getElementById("detailsPage").classList.remove("active");
+    document.getElementById("gamesPage").classList.add("active");
 
-    document.getElementById("homePage")
-        .classList.remove("active");
-
-    document.getElementById("gameDetails")
-        .classList.remove("active");
-
-    document.getElementById("gamesPage")
-        .classList.add("active");
-
-    document.getElementById("categoryTitle")
-        .textContent =
+    document.getElementById("gamesTitle").textContent=
         category.toUpperCase();
 
-    document.getElementById("gameSearch")
-        .value = "";
+    document.getElementById("searchInput").value="";
 
-    displayGames(category);
+    displayGames(games[category] || []);
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+    window.scrollTo({top:0,behavior:"smooth"});
 }
 
+function displayGames(list){
 
-function displayGames(category){
+    const container=document.getElementById("gamesContainer");
+    const noResults=document.getElementById("noResults");
 
-    const container =
-        document.getElementById("gamesGrid");
+    if(list.length===0){
+        container.innerHTML="";
+        noResults.style.display="block";
+        return;
+    }
 
-    const list =
-        games[category] || [];
+    noResults.style.display="none";
 
-    document.getElementById("gameCount")
-        .textContent =
-        `${list.length} GAMES`;
-
-    container.innerHTML =
+    container.innerHTML=
         list.map((game,i)=>createGameCard(game,i)).join("");
-
-    document.getElementById("noResults")
-        .style.display =
-        list.length ? "none" : "block";
-
 }
-
-
-/* =========================================================
-   ALL GAMES
-========================================================= */
 
 function showAllGames(){
 
-    currentCategory = null;
+    document.getElementById("homePage").style.display="none";
+    document.getElementById("detailsPage").classList.remove("active");
+    document.getElementById("gamesPage").classList.add("active");
 
-    document.getElementById("homePage")
-        .classList.remove("active");
+    document.getElementById("gamesTitle").textContent="ALL GAMES";
 
-    document.getElementById("gameDetails")
-        .classList.remove("active");
+    document.getElementById("searchInput").value="";
 
-    document.getElementById("gamesPage")
-        .classList.add("active");
+    displayGames(getAllGames());
 
-    document.getElementById("categoryTitle")
-        .textContent = "ALL GAMES";
-
-    document.getElementById("gameSearch")
-        .value = "";
-
-    const all = getAllGames();
-
-    document.getElementById("gameCount")
-        .textContent =
-        `${all.length} GAMES`;
-
-    document.getElementById("gamesGrid")
-        .innerHTML =
-        all.map((g,i)=>createGameCard(g,i)).join("");
-
-    document.getElementById("noResults")
-        .style.display="none";
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+    window.scrollTo({top:0,behavior:"smooth"});
 }
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
 
 function searchGames(){
 
-    const query =
-        document.getElementById("gameSearch")
+    const query=document
+        .getElementById("searchInput")
         .value
         .toLowerCase()
         .trim();
 
-    let list =
-        currentCategory
-        ? games[currentCategory]
-        : getAllGames();
+    const filtered=getAllGames().filter(game=>
+        game.title.toLowerCase().includes(query) ||
+        game.genre.toLowerCase().includes(query) ||
+        game.developer.toLowerCase().includes(query)
+    );
 
-    if(query){
-
-        list =
-            list.filter(game =>
-
-                game.name.toLowerCase().includes(query) ||
-
-                game.genre.toLowerCase().includes(query) ||
-
-                game.developer.toLowerCase().includes(query) ||
-
-                game.year.includes(query)
-
-            );
-
-    }
-
-    document.getElementById("gamesGrid")
-        .innerHTML =
-        list.map((g,i)=>createGameCard(g,i)).join("");
-
-    document.getElementById("gameCount")
-        .textContent =
-        `${list.length} GAMES`;
-
-    document.getElementById("noResults")
-        .style.display =
-        list.length ? "none" : "block";
-
+    displayGames(filtered);
 }
 
-
-/* =========================================================
+/* =========================
    GAME DETAILS
-========================================================= */
+========================= */
 
 function openGame(game){
 
-    document.getElementById("homePage")
-        .classList.remove("active");
+    document.getElementById("homePage").style.display="none";
+    document.getElementById("gamesPage").classList.remove("active");
+    document.getElementById("detailsPage").classList.add("active");
 
-    document.getElementById("gamesPage")
-        .classList.remove("active");
+    const image=document.getElementById("detailImage");
 
-    document.getElementById("gameDetails")
-        .classList.add("active");
+    image.src=game.image;
 
-    document.getElementById("detailImage")
-        .src = game.image;
+    image.onerror=function(){
+        this.src="https://placehold.co/600x900/090b10/00e5ff?text=VEXORIX";
+    };
 
-    document.getElementById("detailImage")
-        .alt = game.name;
+    document.getElementById("detailTitle").textContent=game.title;
 
-    document.getElementById("detailTitle")
-        .textContent = game.name;
+    document.getElementById("detailTags").innerHTML=`
+        <span class="tag">${game.genre}</span>
+        <span class="tag">${game.year}</span>
+    `;
 
-    document.getElementById("detailGenre")
-        .textContent = game.genre;
+    document.getElementById("detailDescription").textContent=
+        game.description;
 
-    document.getElementById("detailYear")
-        .textContent = game.year;
+    document.getElementById("detailRating").textContent=
+        "★ "+game.rating;
 
-    document.getElementById("detailDescription")
-        .textContent = game.description;
+    document.getElementById("detailYear").textContent=
+        game.year;
 
-    document.getElementById("detailRating")
-        .textContent = "★ " + game.rating;
+    document.getElementById("detailPlatform").textContent=
+        game.platform;
 
-    document.getElementById("detailPlatform")
-        .textContent = game.platform;
+    document.getElementById("detailDeveloper").textContent=
+        game.developer;
 
-    document.getElementById("detailDeveloper")
-        .textContent = game.developer;
-
-    document.getElementById("detailRelease")
-        .textContent = game.year;
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+    window.scrollTo({top:0,behavior:"smooth"});
 }
-
-
-/* =========================================================
-   BACK
-========================================================= */
 
 function backToGames(){
 
-    document.getElementById("gameDetails")
-        .classList.remove("active");
+    document.getElementById("detailsPage").classList.remove("active");
+    document.getElementById("gamesPage").classList.add("active");
 
-    document.getElementById("gamesPage")
-        .classList.add("active");
-
+    window.scrollTo({top:0,behavior:"smooth"});
 }
-
-
-/* =========================================================
-   HOME
-========================================================= */
 
 function showHome(){
 
-    document.getElementById("gamesPage")
-        .classList.remove("active");
+    document.getElementById("gamesPage").classList.remove("active");
+    document.getElementById("detailsPage").classList.remove("active");
+    document.getElementById("homePage").style.display="block";
 
-    document.getElementById("gameDetails")
-        .classList.remove("active");
-
-    document.getElementById("homePage")
-        .classList.add("active");
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+    window.scrollTo({top:0,behavior:"smooth"});
 }
-
-
-/* =========================================================
-   SCROLL
-========================================================= */
 
 function scrollToSection(id){
 
     showHome();
 
     setTimeout(()=>{
-
-        const element =
-            document.getElementById(id);
-
-        if(element){
-
-            element.scrollIntoView({
-                behavior:"smooth"
-            });
-
-        }
-
-    },100);
-
+        document.getElementById(id)?.scrollIntoView({
+            behavior:"smooth"
+        });
+    },50);
 }
 
+/* =========================
+   REVEAL ANIMATION
+========================= */
 
-/* =========================================================
+const observer=new IntersectionObserver(
+    entries=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                entry.target.classList.add("visible");
+            }
+        });
+    },
+    {threshold:.08}
+);
+
+document.querySelectorAll(".reveal").forEach(el=>{
+    observer.observe(el);
+});
+
+/* =========================
    START
-========================================================= */
+========================= */
+
+document.getElementById("gameCount").textContent=
+    getAllGames().length+"+";
 
 loadTrending();
 loadTopRated();
